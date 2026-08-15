@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  # 1. מכולת מסד הנתונים (SQL Server)
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sql_server_db
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=YourPassword123!
+    ports:
+      - "1433:1433"
+    networks:
+      - task-network
+
+  # 2. מכולת שרת ה-Java שלנו
+  app:
+    build: .
+    container_name: java_task_server
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    networks:
+      - task-network
+
+# רשת פנימית שמחברת בין השרת למסד הנתונים
+networks:
+  task-network:
+    driver: bridge
