@@ -16,6 +16,7 @@ docker compose up --build
 
 py -m pytest test\_system.py
 
+תהנו :)
 
 
 
